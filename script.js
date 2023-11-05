@@ -14,6 +14,7 @@ function createDivs(countX, countY, width, height, className, parent, gap=5) {
             div.style.height = `${height}px`;
             div.style.top = `${i * (height + gap)}px`;
             div.style.left = `${j * (width + gap)}px`;
+            div.draggable = true;
             parent.appendChild(div);
             div.i = i+1;
             div.j = j+1;
