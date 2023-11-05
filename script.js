@@ -74,35 +74,6 @@ const div = (x, y) => divs[(y-1)*settings.divsPerRow + (x-1)];
 
 // Let's define some animations!
 class fa {
-    static animate(applyChange) {
-        // For every element, get the current rect, then move it to the next position
-        const curRects = getCurRects().map(r => ({x: r.x, y: r.y}));
-        // Prepend last div to the front
-        applyChange();
-        const newRects = getCurRects().map(r => ({x: r.x, y: r.y}))
-        // Now, animate!
-        for (let i = 0; i < divs.length; i++) {
-            const div = divs[i];
-            const curRect = curRects[i];
-            const newRect = newRects[i];
-            const dx = curRect.x - newRect.x;
-            const dy = curRect.y - newRect.y;
-            div.animate([
-                {
-                    transform: `translate(${dx}px, ${dy}px)`
-                },
-                {
-                    transform: 'none'
-                }
-            ], {
-                duration: 500,
-                easing: 'ease-in-out'
-            });
-        }
-
-        orderDivs();  
-    }
-
     static moveToNext() {
         parentEl.prepend(divs[divs.length-1]);    
     }
@@ -209,10 +180,37 @@ class fa {
 
         }
 
+    }   
+}
+function animate(applyChange) {
+    // For every element, get the current rect, then move it to the next position
+    const curRects = getCurRects().map(r => ({x: r.x, y: r.y}));
+    // Prepend last div to the front
+    applyChange();
+    const newRects = getCurRects().map(r => ({x: r.x, y: r.y}))
+    // Now, animate!
+    for (let i = 0; i < divs.length; i++) {
+        const div = divs[i];
+        const curRect = curRects[i];
+        const newRect = newRects[i];
+        const dx = curRect.x - newRect.x;
+        const dy = curRect.y - newRect.y;
+        div.animate([
+            {
+                transform: `translate(${dx}px, ${dy}px)`
+            },
+            {
+                transform: 'none'
+            }
+        ], {
+            duration: 500,
+            easing: 'ease-in-out'
+        });
     }
 
-    
+    orderDivs();  
 }
+
 function orderDivs() {
     divs = [];
     for (let i = 0; i < parentEl.children.length; i++) {
@@ -245,7 +243,7 @@ let i = 0;
 
 setInterval(() => {
 
-    fa.animate(animQueue[i]??(()=>{}));
+    animate(animQueue[i]??(()=>{}));
     i = (i+1) % animQueue.length;
 
 }, 750)
