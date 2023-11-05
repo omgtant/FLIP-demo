@@ -45,29 +45,77 @@ function applySettings(s) {
     parentEl.style.maxWidth = (s.divsPerRow * (s.divsW + 2*s.divMargin)) + 'px';
     appendDivs(s.divsPerRow*s.divsPerCol, parentEl, 'square', s.divsW, s.divsH, s.divMargin, s.indexDivs);
 }
+function getCurRects() {
+    const rects = [];
+    for (const div of divs) {
+        const rect = div.getBoundingClientRect();
+        rects.push(rect);
+    }
+    return rects;
+}
 
 document.querySelector1 = (selector) => {
     return document.querySelector(selector) | undefined;
 }
 
+
 /**
  * @type {HTMLElement}
  */
 const parentEl = document.querySelector('#div_container');
+console.log(parentEl);
+applyPageSettings();
 
 /**
  * @type {[HTMLElement]}
  */
-const divs = parentEl.children;
+
+const divs = [];
+orderDivs();
+
+console.log(divs);
 const div = (x, y) => divs[(y-1)*10 + (x-1)];
 
 // Let's define some animations!
 class FLIPAnim {
     static moveToNext() {
         // For every element, get the current rect, then move it to the next position
-        const curRects = getCurRects();
+        const curRects = getCurRects().map(r => ({x: r.x, y: r.y}));
+        // Prepend last div to the front
+
+        parentEl.prepend(divs[divs.length-1]);
+        
+        const newRects = getCurRects().map(r => ({x: r.x, y: r.y}))
+        
+        console.log(curRects.every((r, i) => r.x === newRects[i].x && r.y === newRects[i].y))
+
+        // Now, animate!
+        for (let i = 0; i < divs.length; i++) {
+            const div = divs[i];
+            const curRect = curRects[i];
+            const newRect = newRects[i];
+            const dx = curRect.x - newRect.x;
+            const dy = curRect.y - newRect.y;
+            div.animate([
+                {
+                    transform: `translate(${dx}px, ${dy}px)`
+                },
+                {
+                    transform: 'none'
+                }
+            ], {
+                duration: 500,
+                easing: 'ease-in-out'
+            });
+        }
+
+        orderDivs();        
+    }
+}
+function orderDivs() {
+    for (let i = 0; i < parentEl.children.length; i++) {
+        divs.push(parentEl.children[i]);
     }
 }
 
-applyPageSettings();
-FLIPAnim.moveToNext();
+setInterval(FLIPAnim.moveToNext, 1000);
