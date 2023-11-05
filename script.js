@@ -40,7 +40,7 @@ function getSetFromAnimDivs() {
  * @type {[[HTMLElement]]}
  */
 const animDivs = createDivs(10, 10, 50, 50, 'square', document.querySelector('#div_container'));
-animDivs[3][4].style.backgroundColor = 'red';
+animDivs[3][4].style.backgroundColor = 'var(--blue-10)';
 
 const divsSet = getSetFromObjs();
 
