@@ -72,7 +72,7 @@
 
       const inputs = document.querySelectorAll('input:has(+ output)');
       inputs.forEach(i => {
-        i.addEventListener('change', _ => {
+        i.addEventListener('input', _ => {
           applyChange(i);
         });
         applyChange(i);
