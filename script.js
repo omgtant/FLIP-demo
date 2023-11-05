@@ -38,6 +38,7 @@ class Settings {
 function applyPageSettings() {
     const settings = Settings.readFromPage();
     applySettings(settings);
+    return settings;
 }
 
 function applySettings(s) {
@@ -59,17 +60,17 @@ function getCurRects() {
  */
 const parentEl = document.querySelector('#div_container');
 console.log(parentEl);
-applyPageSettings();
+let settings = applyPageSettings();
 
 /**
  * @type {[HTMLElement]}
  */
 
-const divs = [];
+let divs = [];
 orderDivs();
 
 console.log(divs);
-const div = (x, y) => divs[(y-1)*10 + (x-1)];
+const div = (x, y) => divs[(y-1)*settings.divsPerRow + (x-1)];
 
 // Let's define some animations!
 class fa {
@@ -117,15 +118,56 @@ class fa {
             parentEl.prepend(divs[rand]);
         }
     }
+
+    static swap() {
+        swapElements(divs[0], divs[37])
+    }
+
+    static omga() {
+        let rectWidth = settings.divsPerRow;
+        let rectHeight = settings.divsPerCol;
+        let x = 0;
+        let y = 0;
+        let dir = true;
+        const changeDir = true;
+        while (x != rectWidth && y != rectHeight) {
+            // ######
+            // #    #
+            // ######
+
+
+        }
+
+    }
 }
 function orderDivs() {
+    divs = [];
     for (let i = 0; i < parentEl.children.length; i++) {
         divs.push(parentEl.children[i]);
     }
 }
+function swapElements(el1, el2) {
+    if (parentEl.firstChild === el1) {
+        el2.previousSibling.after(el1);
+        parentEl.prepend(el2);
+        return;
+    }
+    if (parentEl.firstChild === el2) {
+        el1.previousSibling.after(el2);
+        parentEl.prepend(el1);
+        return;
+    }
+
+    let prev1 = el1.previousSibling;
+    let prev2 = el2.previousSibling;
+
+    prev1.after(el2);
+    prev2.after(el1);
+}
+
 
 // Queue of animations
-const animQueue = [fa.moveToNext, fa.moveToRandom, fa.shuffle];
+const animQueue = [fa.moveToNext, fa.moveToRandom, fa.shuffle, fa.swap];
 let i = 0;
 
 setInterval(() => {
