@@ -24,15 +24,20 @@ class Settings {
 
     static readFromPage() {
         const settings = new Settings();
-        settings.divsPerRow = parseInt(document.querySelector1('#divsPerRow').value) | 10;
-        settings.divsPerCol = parseInt(document.querySelector1('#divsPerCol').value) | 10;
-        settings.divsW = parseInt(document.querySelector1('#divsW').value) | 50;
-        settings.divsH = parseInt(document.querySelector1('#divsH').value) | 50;
-        settings.divMargin = parseInt(document.querySelector1('#divMargin').value) | 2.5;
-        settings.indexDivs = document.querySelector1('#indexDivs').checked | true;
-        settings.useFLIP = document.querySelector1('#useFLIP').checked | false;
+        settings.divsPerRow = parseInt(document.querySelector1('#divsPerRow').value) || 10;
+        settings.divsPerCol = parseInt(document.querySelector1('#divsPerCol').value) || 10;
+        settings.divsW = parseInt(document.querySelector1('#divsW').value) || 50;
+        settings.divsH = parseInt(document.querySelector1('#divsH').value) || 50;
+        settings.divMargin = parseInt(document.querySelector1('#divMargin').value) || 2.5;
+        settings.indexDivs = document.querySelector1('#indexDivs').checked || true;
+        settings.useFLIP = document.querySelector1('#useFLIP').checked || false;
         return settings;
     }
+}
+
+function applyPageSettings() {
+    const settings = Settings.readFromPage();
+    applySettings(settings);
 }
 
 function applySettings(s) {
@@ -50,4 +55,19 @@ document.querySelector1 = (selector) => {
  */
 const parentEl = document.querySelector('#div_container');
 
-applySettings(Settings.readFromPage());
+/**
+ * @type {[HTMLElement]}
+ */
+const divs = parentEl.children;
+const div = (x, y) => divs[(y-1)*10 + (x-1)];
+
+// Let's define some animations!
+class FLIPAnim {
+    static moveToNext() {
+        // For every element, get the current rect, then move it to the next position
+        const curRects = getCurRects();
+    }
+}
+
+applyPageSettings();
+FLIPAnim.moveToNext();
