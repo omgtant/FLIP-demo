@@ -1,3 +1,23 @@
+/**
+ * @type {HTMLSelectElement}
+ */
+const animationSelect = document.querySelector('#animationFunc');
+
+/**
+ * @type {HTMDElement}
+ */
+const parentEl = document.querySelector('#div_container');
+
+/**
+ * @type {[HTMLElement]}
+ */
+
+let divs = [];
+orderDivs();
+
+const div = (x, y) => divs[(y-1)*settings.divsPerRow + (x-1)];
+
+
 function appendDivs(count, parent, classname="", w=50, h=50, divMargin=2.5, indexDivs=true) {
     for (let i = 0; i < count; i++) {
         const div = document.createElement('div');
@@ -10,68 +30,6 @@ function appendDivs(count, parent, classname="", w=50, h=50, divMargin=2.5, inde
         parent.appendChild(div);
     }   
 }
-
-class Settings {
-    constructor() {
-        this.divsPerRow = 10;
-        this.divsPerCol = 10;
-        this.divsW = 50;
-        this.divsH = 50;
-        this.divMargin = 2.5;
-        this.indexDivs = true;
-        this.useFLIP = false;
-    }
-
-    static readFromPage() {
-        const settings = new Settings();
-        settings.divsPerRow = Number.parseFloat(document.querySelector('#divsPerRow')?.value) ?? 10;
-        settings.divsPerCol = Number.parseFloat(document.querySelector('#divsPerCol')?.value) ?? 10;
-        settings.divsW = Number.parseFloat(document.querySelector('#divsW')?.value) ?? 50;
-        settings.divsH = Number.parseFloat(document.querySelector('#divsH')?.value) ?? 50;
-        settings.divMargin = Number.parseFloat(document.querySelector('#divMargin')?.value) ?? 2.5;
-        settings.indexDivs = document.querySelector('#indexDivs')?.checked ?? true;
-        settings.useFLIP = document.querySelector('#useFLIP')?.checked ?? false;
-        return settings;
-    }
-}
-
-function applyPageSettings() {
-    const settings = Settings.readFromPage();
-    applySettings(settings);
-    return settings;
-}
-
-function applySettings(s) {
-    divs = [];
-    parentEl.innerHTML = '';
-    parentEl.style.maxWidth = (s.divsPerRow * (s.divsW + 2*s.divMargin)) + 'px';
-    appendDivs(s.divsPerRow*s.divsPerCol, parentEl, 'square', s.divsW, s.divsH, s.divMargin, s.indexDivs);
-}
-function getCurRects() {
-    const rects = [];
-    for (const div of divs) {
-        const rect = div.getBoundingClientRect();
-        rects.push(rect);
-    }
-    return rects;
-}
-
-/**
- * @type {HTMLElement}
- */
-const parentEl = document.querySelector('#div_container');
-let divs = [];
-let settings = applyPageSettings();
-
-/**
- * @type {[HTMLElement]}
- */
-
-
-orderDivs();
-
-console.log(divs);
-const div = (x, y) => divs[(y-1)*settings.divsPerRow + (x-1)];
 
 // Let's define some animations!
 class fa {
@@ -270,11 +228,61 @@ class fa {
 
     } 
 }
+
+class Settings {
+    constructor() {
+        this.divsPerRow = 10;
+        this.divsPerCol = 10;
+        this.divsW = 50;
+        this.divsH = 50;
+        this.divMargin = 2.5;
+        this.indexDivs = true;
+        this.useFLIP = false;
+        this.animation = fa.moveToNext;
+    }
+
+    static readFromPage() {
+        const settings = new Settings();
+        settings.divsPerRow = Number.parseFloat(document.querySelector('#divsPerRow')?.value) ?? 10;
+        settings.divsPerCol = Number.parseFloat(document.querySelector('#divsPerCol')?.value) ?? 10;
+        settings.divsW = Number.parseFloat(document.querySelector('#divsW')?.value) ?? 50;
+        settings.divsH = Number.parseFloat(document.querySelector('#divsH')?.value) ?? 50;
+        settings.divMargin = Number.parseFloat(document.querySelector('#divMargin')?.value) ?? 2.5;
+        settings.indexDivs = document.querySelector('#indexDivs')?.checked ?? true;
+        settings.useFLIP = document.querySelector('#useFLIP')?.checked ?? false;
+        settings.animation = fa[animationSelect.value];
+        return settings;
+    }
+}
+
+let settings = applyPageSettings();
+
+function applyPageSettings() {
+    const settings = Settings.readFromPage();
+    applySettings(settings);
+    return settings;
+}
+
+function applySettings(s) {
+    divs = [];
+    parentEl.innerHTML = '';
+    parentEl.style.maxWidth = (s.divsPerRow * (s.divsW + 2*s.divMargin)) + 'px';
+    appendDivs(s.divsPerRow*s.divsPerCol, parentEl, 'square', s.divsW, s.divsH, s.divMargin, s.indexDivs);
+}
+function getCurRects() {
+    const rects = [];
+    for (const div of divs) {
+        const rect = div.getBoundingClientRect();
+        rects.push(rect);
+    }
+    return rects;
+}
+
 function animate(applyChange) {
     // For every element, get the current rect, then move it to the next position
     const curRects = getCurRects().map(r => ({x: r.x, y: r.y}));
     // Prepend last div to the front
-    applyChange();
+    if (applyChange) applyChange();
     const newRects = getCurRects().map(r => ({x: r.x, y: r.y}))
     // Now, animate!
     for (let i = 0; i < divs.length; i++) {
@@ -298,6 +306,20 @@ function animate(applyChange) {
 
     orderDivs();  
 }
+
+function camelCaseToPhrase(str) {
+    const words = str.match(/[A-Za-z][a-z]*/g) || [];
+    const phrase = words.join(' ');
+    return phrase.charAt(0).toUpperCase() + phrase.slice(1).toLowerCase();
+}
+
+const animations = Object.getOwnPropertyNames(fa).filter(prop => typeof fa[prop] === 'function');
+animations.forEach(a => {
+    const option = document.createElement('option');
+    option.value = a;
+    option.textContent = camelCaseToPhrase(a);
+    animationSelect.append(option);
+})
 
 function orderDivs() {
     divs = [];
@@ -324,14 +346,6 @@ function swapElements(el1, el2) {
     prev2.after(el1);
 }
 
-
-// Queue of animations
-const animQueue = [fa.omga, fa.omga_reverse];
-let i = 0;
-
 setInterval(() => {
-
-    animate(animQueue[i]??(()=>{}));
-    i = (i+1) % animQueue.length;
-
+    animate(settings.animation);
 }, 750)
