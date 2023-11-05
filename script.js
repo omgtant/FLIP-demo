@@ -130,15 +130,88 @@ class fa {
         let y = 0;
         let dir = true;
         const changeDir = true;
-        while (x != rectWidth && y != rectHeight) {
+        while (1 < rectWidth && 1 < rectHeight) {
             // ######
             // #    #
             // ######
+            // iterate through the rectangle as through a cycle
+            // swap every element with (x, y), except for (x, y) itself
+            
+            let curX = x+1;
+            let curY = y;
+            const w = rectWidth;
+            const h = rectHeight;
+            let dx = 1, dy = 0; 
+            if (!dir) {
+                dx = 0; dy = 1; curX = x; curY = y+1;
+            }
+            while (curX != x || curY != y) {
+                swapElements(div(x+1, y+1), div(curX+1, curY+1));
 
+                // Move to the next position
+                curX += dx;
+                curY += dy;
+                if (dir) {
+                    // Change direction if necessary
+                    if (curX === w+x) {
+                        dx = 0;
+                        dy = 1;
+                        curX--;
+                        curY++;
+                    } else if (curX === -1+x) {
+                        dx = 0;
+                        dy = -1;
+                        curX++;
+                        curY--;
+                    } else if (curY === h+y) {
+                        dx = -1;
+                        dy = 0;
+                        curX--;
+                        curY--;
+                    } else if (curY === -1+y) {
+                        dx = 1;
+                        dy = 0;
+                        curX++;
+                        curY++;
+                    }
+                } else {
+                    // Change direction if necessary
+                    if (curX === w+x) {
+                        dx = 0;
+                        dy = -1;
+                        curX--;
+                        curY--;
+                    } else if (curX === -1+x) {
+                        dx = 0;
+                        dy = 1;
+                        curX++;
+                        curY++;
+                    } else if (curY === h+y) {
+                        dx = 1;
+                        dy = 0;
+                        curX++;
+                        curY--;
+                    } else if (curY === -1+y) {
+                        dx = -1;
+                        dy = 0;
+                        curX--;
+                        curY++;
+                    }
+                }
+            }
+
+
+            x++;
+            y++;
+            rectWidth -= 2;
+            rectHeight -= 2;
+            if (changeDir) dir = !dir;
 
         }
 
     }
+
+    
 }
 function orderDivs() {
     divs = [];
@@ -167,12 +240,12 @@ function swapElements(el1, el2) {
 
 
 // Queue of animations
-const animQueue = [fa.moveToNext, fa.moveToRandom, fa.shuffle, fa.swap];
+const animQueue = [fa.omga, fa.shuffle];
 let i = 0;
 
 setInterval(() => {
 
-    fa.animate(animQueue[i]);
+    fa.animate(animQueue[i]??(()=>{}));
     i = (i+1) % animQueue.length;
 
 }, 750)
