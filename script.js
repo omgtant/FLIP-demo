@@ -24,13 +24,13 @@ class Settings {
 
     static readFromPage() {
         const settings = new Settings();
-        settings.divsPerRow = Number.parseFloat(document.querySelector('#divsPerRow')?.value) || 10;
-        settings.divsPerCol = Number.parseFloat(document.querySelector('#divsPerCol')?.value) || 10;
-        settings.divsW = Number.parseFloat(document.querySelector('#divsW')?.value) || 50;
-        settings.divsH = Number.parseFloat(document.querySelector('#divsH')?.value) || 50;
-        settings.divMargin = Number.parseFloat(document.querySelector('#divMargin')?.value) || 2.5;
-        settings.indexDivs = document.querySelector('#indexDivs')?.checked || true;
-        settings.useFLIP = document.querySelector('#useFLIP')?.checked || false;
+        settings.divsPerRow = Number.parseFloat(document.querySelector('#divsPerRow')?.value) ?? 10;
+        settings.divsPerCol = Number.parseFloat(document.querySelector('#divsPerCol')?.value) ?? 10;
+        settings.divsW = Number.parseFloat(document.querySelector('#divsW')?.value) ?? 50;
+        settings.divsH = Number.parseFloat(document.querySelector('#divsH')?.value) ?? 50;
+        settings.divMargin = Number.parseFloat(document.querySelector('#divMargin')?.value) ?? 2.5;
+        settings.indexDivs = document.querySelector('#indexDivs')?.checked ?? true;
+        settings.useFLIP = document.querySelector('#useFLIP')?.checked ?? false;
         return settings;
     }
 }
