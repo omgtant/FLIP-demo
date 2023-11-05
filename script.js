@@ -42,6 +42,7 @@ function applyPageSettings() {
 }
 
 function applySettings(s) {
+    divs = [];
     parentEl.innerHTML = '';
     parentEl.style.maxWidth = (s.divsPerRow * (s.divsW + 2*s.divMargin)) + 'px';
     appendDivs(s.divsPerRow*s.divsPerCol, parentEl, 'square', s.divsW, s.divsH, s.divMargin, s.indexDivs);
@@ -59,14 +60,14 @@ function getCurRects() {
  * @type {HTMLElement}
  */
 const parentEl = document.querySelector('#div_container');
-console.log(parentEl);
+let divs = [];
 let settings = applyPageSettings();
 
 /**
  * @type {[HTMLElement]}
  */
 
-let divs = [];
+
 orderDivs();
 
 console.log(divs);
