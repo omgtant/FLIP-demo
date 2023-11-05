@@ -1,57 +1,53 @@
-
-
-function createDivs(countX, countY, width, height, className, parent, gap=5) {
-    const animDivs = {};
-    for (let i = 0; i < countY; i++) {
-        animDivs[i+1] = {};
-    }
-    for (let i = 0; i < countY; i++) {
-        for (let j = 0; j < countX; j++) {
-            const div = document.createElement('div');
-            div.className = className;
-            div.style.position = 'absolute';
-            div.style.width = `${width}px`;
-            div.style.height = `${height}px`;
-            div.style.top = `${i * (height + gap)}px`;
-            div.style.left = `${j * (width + gap)}px`;
-            div.draggable = true;
-            parent.appendChild(div);
-            div.i = i+1;
-            div.j = j+1;
-            animDivs[j+1][i+1] = div;
-        }
-    }
-
-    parent.style.width = countX * width + (countX - 1) * gap + 'px';
-    parent.style.height = countY * height + (countY - 1) * gap + 'px';
-    return animDivs;
+function appendDivs(count, parent, classname="", w=50, h=50, divMargin=2.5, indexDivs=true) {
+    for (let i = 0; i < count; i++) {
+        const div = document.createElement('div');
+        div.className = classname;
+        div.style.width = `${w}px`;
+        div.style.height = `${h}px`;
+        div.style.margin = `${divMargin}px`;
+        div.draggable = true;
+        div.appendChild(document.createTextNode(indexDivs ? i : ''));
+        parent.appendChild(div);
+    }   
 }
-function getSetFromAnimDivs() {
-    const set = new Set();
-    for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-            set.add(animDivs[i+1][j+1]);
-        }
+
+class Settings {
+    constructor() {
+        this.divsPerRow = 10;
+        this.divsPerCol = 10;
+        this.divsW = 50;
+        this.divsH = 50;
+        this.divMargin = 2.5;
+        this.indexDivs = true;
+        this.useFLIP = false;
     }
-    return set;
+
+    static readFromPage() {
+        const settings = new Settings();
+        settings.divsPerRow = parseInt(document.querySelector1('#divsPerRow').value) | 10;
+        settings.divsPerCol = parseInt(document.querySelector1('#divsPerCol').value) | 10;
+        settings.divsW = parseInt(document.querySelector1('#divsW').value) | 50;
+        settings.divsH = parseInt(document.querySelector1('#divsH').value) | 50;
+        settings.divMargin = parseInt(document.querySelector1('#divMargin').value) | 2.5;
+        settings.indexDivs = document.querySelector1('#indexDivs').checked | true;
+        settings.useFLIP = document.querySelector1('#useFLIP').checked | false;
+        return settings;
+    }
+}
+
+function applySettings(s) {
+    parentEl.innerHTML = '';
+    parentEl.style.maxWidth = (s.divsPerRow * (s.divsW + 2*s.divMargin)) + 'px';
+    appendDivs(s.divsPerRow*s.divsPerCol, parentEl, 'square', s.divsW, s.divsH, s.divMargin, s.indexDivs);
+}
+
+document.querySelector1 = (selector) => {
+    return document.querySelector(selector) | undefined;
 }
 
 /**
- * @type {[[HTMLElement]]}
+ * @type {HTMLElement}
  */
-const animDivs = createDivs(10, 10, 50, 50, 'square', document.querySelector('#div_container'));
-animDivs[3][4].style.backgroundColor = 'var(--blue-10)';
+const parentEl = document.querySelector('#div_container');
 
-const divsSet = getSetFromObjs();
-
-
-/// Anim stuff
-
-function getCurRects() {
-    const rects = [];
-    for (const div of divsSet) {
-        const rect = div.getBoundingClientRect();
-        rects.push(rect);
-    }
-    return rects;
-}
+applySettings(Settings.readFromPage());
