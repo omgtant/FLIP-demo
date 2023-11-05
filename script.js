@@ -28,6 +28,7 @@ function appendDivs(count, parent, classname="", w=50, h=50, divMargin=2.5, inde
         div.draggable = true;
         div.appendChild(document.createTextNode(indexDivs ? i : ''));
         parent.appendChild(div);
+        div.dataset.i = i;
     }   
 }
 
@@ -255,12 +256,41 @@ class Settings {
     }
 }
 
-let settings = applyPageSettings();
+const animations = Object.getOwnPropertyNames(fa).filter(prop => typeof fa[prop] === 'function');
+animations.forEach(a => {
+    const option = document.createElement('option');
+    option.value = a;
+    option.textContent = camelCaseToPhrase(a);
+    animationSelect.append(option);
+});
+animationSelect.selectedIndex = 0;
+
+
+let settings = undefined;
+applyPageSettings();
 
 function applyPageSettings() {
-    const settings = Settings.readFromPage();
-    applySettings(settings);
-    return settings;
+    /**
+     * @type {Settings}
+     */
+    const _old_settings = settings;
+    const _settings = Settings.readFromPage();
+
+
+    if (_old_settings === undefined || _old_settings.divsPerCol != _settings.divsPerCol || _old_settings.divsPerRow != _settings.divsPerRow) {
+        applySettings(_settings);
+        orderDivs();
+    } else {
+        for (let i = 0; i < divs.length; i++) {
+            const div = divs[i];
+            div.style.width = `${_settings.divsW}px`;
+            div.style.height = `${_settings.divsH}px`;
+            div.style.margin = `${_settings.divMargin}px`;
+            div.textContent = _settings.indexDivs ? div.dataset.i : '';
+            settings.animation = fa[animationSelect.value];
+        }
+    }
+    settings = _settings;
 }
 
 function applySettings(s) {
@@ -313,13 +343,6 @@ function camelCaseToPhrase(str) {
     return phrase.charAt(0).toUpperCase() + phrase.slice(1).toLowerCase();
 }
 
-const animations = Object.getOwnPropertyNames(fa).filter(prop => typeof fa[prop] === 'function');
-animations.forEach(a => {
-    const option = document.createElement('option');
-    option.value = a;
-    option.textContent = camelCaseToPhrase(a);
-    animationSelect.append(option);
-})
 
 function orderDivs() {
     divs = [];
@@ -346,6 +369,7 @@ function swapElements(el1, el2) {
     prev2.after(el1);
 }
 
+orderDivs();
 setInterval(() => {
     animate(settings.animation);
 }, 750)
