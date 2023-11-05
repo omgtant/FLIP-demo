@@ -77,18 +77,13 @@ console.log(divs);
 const div = (x, y) => divs[(y-1)*10 + (x-1)];
 
 // Let's define some animations!
-class FLIPAnim {
-    static moveToNext() {
+class fa {
+    static animate(applyChange) {
         // For every element, get the current rect, then move it to the next position
         const curRects = getCurRects().map(r => ({x: r.x, y: r.y}));
         // Prepend last div to the front
-
-        parentEl.prepend(divs[divs.length-1]);
-        
+        applyChange();
         const newRects = getCurRects().map(r => ({x: r.x, y: r.y}))
-        
-        console.log(curRects.every((r, i) => r.x === newRects[i].x && r.y === newRects[i].y))
-
         // Now, animate!
         for (let i = 0; i < divs.length; i++) {
             const div = divs[i];
@@ -109,7 +104,23 @@ class FLIPAnim {
             });
         }
 
-        orderDivs();        
+        orderDivs();  
+    }
+
+    static moveToNext() {
+        parentEl.prepend(divs[divs.length-1]);    
+    }
+
+    static moveToRandom() {
+        const rand = Math.floor(Math.random() * divs.length);
+        parentEl.prepend(divs[rand]);
+    }
+
+    static shuffle() {
+        for (let i = 0; i < divs.length; i++) {
+            const rand = Math.floor(Math.random() * divs.length);
+            parentEl.prepend(divs[rand]);
+        }
     }
 }
 function orderDivs() {
@@ -118,4 +129,13 @@ function orderDivs() {
     }
 }
 
-setInterval(FLIPAnim.moveToNext, 1000);
+// Queue of animations
+const animQueue = [fa.moveToNext, fa.moveToRandom, fa.shuffle];
+let i = 0;
+
+setInterval(() => {
+
+    fa.animate(animQueue[i]);
+    i = (i+1) % animQueue.length;
+
+}, 750)
