@@ -10,11 +10,55 @@
     />
   </head>
   <body>
-    <h1>Hello, world!</h1>
-    
+    <h1>Reflow demonstration</h1>
 
-    <div id="div_container"></div>
+    <main>
+      <form action="" onsubmit="javascript:applyPageSettings()">
+        <fieldset>
+          <legend>Animation Settings</legend>
+          <label for="divsPerRow">Divs/Row</label>
+          <input type="range" name="divsPerRow" id="divsPerRow" min="1" max="20" val="10" step="1">
+          <output name="out_divsPerRow"></output>
+          <label for="divsPerCol">Divs/Column</label>
+          <input type="range" name="divsPerCol" id="divsPerCol" min="1" max="20" val="10" step="1">
+          <output name="out_divsPerCol"></output>
+          <label for="divsW">Divs' width</label>
+          <input type="range" name="divsW" id="divsW" min="20" max="100" val="50" step="1">
+          <output name="out_divsW"></output>
+          <label for="divsH">Divs' height</label>
+          <input type="range" name="divsH" id="divsH" min="20" max="100" val="50" step="1">
+          <output name="out_divsH"></output>
+          <label for="divMargin">Divs' margin</label>
+          <input type="range" name="divMargin" id="divMargin" min="0" max="15" val="2.5" step="0.25">
+          <output name="out_divMargin"></output>
+          <label for="indexDivs">Indices</label>
+          <input type="checkbox" name="indexDivs" id="indexDivs" checked>
+          <label for="useFLIP">Use FLIP</label>
+          <input type="checkbox" name="useFLIP" id="useFLIP">
+        </fieldset>
+      </form>
+  
+      <div id="div_container"></div>
+    </main>
 
     <script src="script.js"></script>
+    <script>
+      function applyChange(input) {
+        let value = +input.value;
+        if (input.step < 1)
+          value = value.toFixed(2);
+
+        input.nextElementSibling.value = value;
+      }
+
+      const inputs = document.querySelectorAll('input:has(+ output)');
+      inputs.forEach(i => {
+        i.addEventListener('change', _ => {
+          applyChange(i);
+          applyPageSettings();
+        });
+        applyChange(i);
+      })
+    </script>
   </body>
 </html>

@@ -26,3 +26,14 @@ body {
     align-items: center;
     flex-shrink: 0;
 }
+main {
+    display: flex;
+}
+label {
+    display: block;
+}
+output {
+    display: inline-block;
+    width: 5em;
+    text-align: right;
+}

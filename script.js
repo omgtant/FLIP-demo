@@ -24,13 +24,13 @@ class Settings {
 
     static readFromPage() {
         const settings = new Settings();
-        settings.divsPerRow = parseInt(document.querySelector1('#divsPerRow').value) || 10;
-        settings.divsPerCol = parseInt(document.querySelector1('#divsPerCol').value) || 10;
-        settings.divsW = parseInt(document.querySelector1('#divsW').value) || 50;
-        settings.divsH = parseInt(document.querySelector1('#divsH').value) || 50;
-        settings.divMargin = parseInt(document.querySelector1('#divMargin').value) || 2.5;
-        settings.indexDivs = document.querySelector1('#indexDivs').checked || true;
-        settings.useFLIP = document.querySelector1('#useFLIP').checked || false;
+        settings.divsPerRow = Number.parseFloat(document.querySelector('#divsPerRow')?.value) || 10;
+        settings.divsPerCol = Number.parseFloat(document.querySelector('#divsPerCol')?.value) || 10;
+        settings.divsW = Number.parseFloat(document.querySelector('#divsW')?.value) || 50;
+        settings.divsH = Number.parseFloat(document.querySelector('#divsH')?.value) || 50;
+        settings.divMargin = Number.parseFloat(document.querySelector('#divMargin')?.value) || 2.5;
+        settings.indexDivs = document.querySelector('#indexDivs')?.checked || true;
+        settings.useFLIP = document.querySelector('#useFLIP')?.checked || false;
         return settings;
     }
 }
@@ -53,11 +53,6 @@ function getCurRects() {
     }
     return rects;
 }
-
-document.querySelector1 = (selector) => {
-    return document.querySelector(selector) | undefined;
-}
-
 
 /**
  * @type {HTMLElement}
