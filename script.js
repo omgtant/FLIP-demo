@@ -20,6 +20,9 @@ function createDivs(countX, countY, width, height, className, parent, gap=5) {
             animDivs[j+1][i+1] = div;
         }
     }
+
+    parent.style.width = countX * width + (countX - 1) * gap + 'px';
+    parent.style.height = countY * height + (countY - 1) * gap + 'px';
     return animDivs;
 }
 function getSetFromAnimDivs() {
@@ -35,7 +38,7 @@ function getSetFromAnimDivs() {
 /**
  * @type {[[HTMLElement]]}
  */
-const animDivs = createDivs(10, 10, 50, 50, 'square', document.body);
+const animDivs = createDivs(10, 10, 50, 50, 'square', document.querySelector('#div_container'));
 animDivs[3][4].style.backgroundColor = 'red';
 
 const divsSet = getSetFromObjs();
