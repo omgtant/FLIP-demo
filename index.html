@@ -10,57 +10,65 @@
     />
   </head>
   <body>
-    <h1>Reflow demonstration</h1>
+    <div class="fullscreen" id="fs1">
+      <h1>Reflow demonstration</h1>
+      <main>
+        <form action="">
+          <fieldset>
+            <legend>Animation Settings</legend>
+            <label for="divsPerRow">
+              Divs/Row
+              <input type="range" name="divsPerRow" id="divsPerRow" min="1" max="20" val="10" step="1">
+              <output name="out_divsPerRow"></output>
+            </label>
+            <label for="divsPerCol">
+              Divs/Column
+              <input type="range" name="divsPerCol" id="divsPerCol" min="1" max="20" val="10" step="1">
+              <output name="out_divsPerCol"></output>
+            </label>
+            <label for="divsW">
+              Divs' width
+              <input type="range" name="divsW" id="divsW" min="20" max="100" val="50" step="1">
+              <output name="out_divsW"></output>
+            </label>
+            <label for="divsH">
+              Divs' height
+              <input type="range" name="divsH" id="divsH" min="20" max="100" val="50" step="1">
+              <output name="out_divsH"></output>
+            </label>
+            <label for="divMargin">
+              Divs' margin
+              <input type="range" name="divMargin" id="divMargin" min="0" max="15" val="2.5" step="0.25">
+              <output name="out_divMargin"></output>
+            </label>
+            <label for="indexDivs">
+              Indices
+              <input type="checkbox" name="indexDivs" id="indexDivs" checked>
+            </label>
+            <label for="useFLIP">
+              Use FLIP
+              <input type="checkbox" name="useFLIP" id="useFLIP">
+            </label>
+            <label for="animationFunc">
+              <select name="animationFunc" id="animationFunc"></select>
+            </label>
+            <hr>
+            <button>Apply</button>
+          </fieldset>
+        </form>
+    
+        <div id="div_container"></div>
+      </main>
+    </div>
+    <div class="fullscreen" id="fs2">
 
-    <main>
-      <form action="">
-        <fieldset>
-          <legend>Animation Settings</legend>
-          <label for="divsPerRow">
-            Divs/Row
-            <input type="range" name="divsPerRow" id="divsPerRow" min="1" max="20" val="10" step="1">
-            <output name="out_divsPerRow"></output>
-          </label>
-          <label for="divsPerCol">
-            Divs/Column
-            <input type="range" name="divsPerCol" id="divsPerCol" min="1" max="20" val="10" step="1">
-            <output name="out_divsPerCol"></output>
-          </label>
-          <label for="divsW">
-            Divs' width
-            <input type="range" name="divsW" id="divsW" min="20" max="100" val="50" step="1">
-            <output name="out_divsW"></output>
-          </label>
-          <label for="divsH">
-            Divs' height
-            <input type="range" name="divsH" id="divsH" min="20" max="100" val="50" step="1">
-            <output name="out_divsH"></output>
-          </label>
-          <label for="divMargin">
-            Divs' margin
-            <input type="range" name="divMargin" id="divMargin" min="0" max="15" val="2.5" step="0.25">
-            <output name="out_divMargin"></output>
-          </label>
-          <label for="indexDivs">
-            Indices
-            <input type="checkbox" name="indexDivs" id="indexDivs" checked>
-          </label>
-          <label for="useFLIP">
-            Use FLIP
-            <input type="checkbox" name="useFLIP" id="useFLIP">
-          </label>
-          <label for="animationFunc">
-            <select name="animationFunc" id="animationFunc"></select>
-          </label>
-          <hr>
-          <button>Apply</button>
-        </fieldset>
-      </form>
-  
-      <div id="div_container"></div>
-    </main>
+    </div>
+    <div class="fullscreen" id="fs2">
+
+    </div>
 
     <script src="script.js"></script>
+    <script src="scroll.js"></script>
     <script>
       function applyChange(input) {
         let value = +input.value;

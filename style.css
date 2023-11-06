@@ -44,3 +44,7 @@ output {
     width: 5em;
     text-align: right;
 }
+.fullscreen {
+    height: 100vh;
+    overflow: hidden;
+}
