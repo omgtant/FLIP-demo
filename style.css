@@ -11,7 +11,18 @@ body {
     box-shadow: inset 0 0 0 2px var(--blue-9);
     border-radius: 5px;
 }
-
+.demo-square {
+    width: 100px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+}
+.demo-square > p{
+    margin: 10px;
+    text-align: center;
+}
 #div_container {
     position: relative;
     display: flex;
@@ -27,6 +38,7 @@ body {
 }
 main {
     display: flex;
+    position: relative ;
 }
 fieldset, hr {
     border-style: solid;
