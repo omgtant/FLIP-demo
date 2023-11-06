@@ -38,7 +38,7 @@ class fa {
         parentEl.prepend(divs[divs.length-1]);    
     }
 
-    static moveToRandom() {
+    static moveRandom() {
         const rand = Math.floor(Math.random() * divs.length);
         parentEl.prepend(divs[rand]);
     }
@@ -51,7 +51,9 @@ class fa {
     }
 
     static swap() {
-        swapElements(divs[0], divs[37])
+        const a = Math.floor(Math.random() * divs.length);
+        const b = Math.floor(Math.random() * (divs.length - 1));    
+        swapElements(divs[a], divs[b+(b>=a)])
     }
 
     static omga() {
