@@ -71,29 +71,7 @@
         <div id="div_container"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js" type="module"></script>
     <script src="scroll.js"></script>
-    <script>
-      function applyChange(input) {
-        let value = +input.value;
-        if (input.step < 1)
-          value = value.toFixed(2);
-
-        input.nextElementSibling.value = value;
-      }
-
-      const inputs = document.querySelectorAll('input:has(+ output)');
-      inputs.forEach(i => {
-        i.addEventListener('input', _ => {
-          applyChange(i);
-        });
-        applyChange(i);
-      })
-
-      document.forms[0]?.addEventListener('submit', e => {
-        e.preventDefault();
-        applyPageSettings();
-      })
-    </script>
   </body>
 </html>
