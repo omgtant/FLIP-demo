@@ -32,6 +32,9 @@ body {
     display: flex;
     flex-wrap: wrap;
 }
+#fs2 > h1 {
+    text-align: center;
+}
 
 #div_container > div {
     display: flex;
