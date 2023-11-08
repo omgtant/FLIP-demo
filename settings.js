@@ -8,7 +8,7 @@ export let settings = undefined;
  */
 const animationSelect = document.querySelector('#animationFunc');
 
-function appendDivs(count, parent, classname="", w=50, h=50, divMargin=2.5, indexDivs=true) {
+export function appendDivs(count, parent, classname="", w=50, h=50, divMargin=2.5, indexDivs=true) {
     for (let i = 0; i < count; i++) {
         const div = document.createElement('div');
         div.className = classname;
