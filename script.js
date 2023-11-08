@@ -1,4 +1,5 @@
 import { settings, applyPageSettings } from './settings.js';
+import { registerCallback } from './fpsCounter.js';
 
 /**
  * @type {HTMDElement}
@@ -85,3 +86,7 @@ document.forms[0]?.addEventListener('submit', e => {
     applyPageSettings();
 });
 applyPageSettings();
+
+registerCallback(fps => {
+    document.querySelector('#fps').textContent = fps;
+});

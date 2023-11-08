@@ -7,6 +7,11 @@ body {
     background-color: var(--blue-2);
     color: var(--blue-12);
 }
+#fps {
+    position: fixed;
+    top: 0; left: 0;
+    background-color: bisque;
+}
 .square {
     box-shadow: inset 0 0 0 2px var(--blue-9);
     border-radius: 5px;
