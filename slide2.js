@@ -32,14 +32,11 @@ slide2El2.style.left = "-400px"
 
 
 button.addEventListener('click', () => {
-    slide2El.style.transition = "bottom 1s ease-in-out"
-slide2El2.style.transition = "bottom 1s ease-in-out"
+    slide2El.style.transition = "margin-top 1s ease-in-out"
+slide2El2.style.transition = "margin-top 1s ease-in-out"
 
 
-    const bot = (+slide2El.style.bottom.slice(0, -2));
-    slide2El.style.bottom = `${bot-100}px`;
-    
-    const bot2 = (+slide2El2.style.bottom.slice(0, -2));
-    slide2El2.style.bottom = `${bot2-100}px`;
+    const bot = (+slide2El.style.marginTop.slice(0, -2));
+    slide2El.style.marginTop = `${bot+100}px`;
 });
 
