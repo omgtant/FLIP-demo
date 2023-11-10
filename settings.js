@@ -36,7 +36,6 @@ class Settings {
         this.divsH = 50;
         this.divMargin = 2.5;
         this.indexDivs = true;
-        this.useFLIP = false;
         this.animation = fa.moveToNext;
     }
 
@@ -48,7 +47,6 @@ class Settings {
         settings.divsH = Number.parseFloat(document.querySelector('#divsH')?.value) ?? 50;
         settings.divMargin = Number.parseFloat(document.querySelector('#divMargin')?.value) ?? 2.5;
         settings.indexDivs = document.querySelector('#indexDivs')?.checked ?? true;
-        settings.useFLIP = document.querySelector('#useFLIP')?.checked ?? false;
         settings.animation = fa[animationSelect.value];
         return settings;
     }
